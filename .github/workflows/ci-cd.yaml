@@ -11,15 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      mysql:
-        image: mysql:5.7
+      postgres:
+        image: postgres:13
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: devop_crud_db
+          POSTGRES_PASSWORD: 
+          POSTGRES_DB: devops_api
+          POSTGRES_USER: root
         ports:
-          - 3306:3306
+          - 5432:5432
         options: >-
-          --health-cmd="mysqladmin ping --silent"
+          --health-cmd="pg_isready -U root"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -41,10 +42,10 @@ jobs:
     - name: ⚙️ Exporter les variables d’environnement
       run: |
         echo "DB_HOST=localhost" >> $GITHUB_ENV
-        echo "DB_PORT=3306" >> $GITHUB_ENV
-        echo "DB_NAME=devop_crud_db" >> $GITHUB_ENV
+        echo "DB_PORT=5432" >> $GITHUB_ENV
+        echo "DB_NAME=devops_api" >> $GITHUB_ENV
         echo "DB_USER=root" >> $GITHUB_ENV
-        echo "DB_PASSWORD=root" >> $GITHUB_ENV
+        echo "DB_PASSWORD=junior25" >> $GITHUB_ENV
 
     - name: 🧪 Lancer les tests
       run: |
