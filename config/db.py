@@ -6,7 +6,7 @@ import os
 load_dotenv()
 
 # Choisir l'URL de la base de données en fonction de l'environnement
-DATABASE_URL = os.getenv("DATABASE_URL_PROD") if os.getenv("IS_PROD", "false") == "true" else os.getenv("DATABASE_URL_LOCAL")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Connexion SQLAlchemy
 engine = create_engine(DATABASE_URL)
