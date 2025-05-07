@@ -5,17 +5,13 @@ import os
 # Charger les variables d'environnement depuis le fichier .env
 load_dotenv()
 
-# Lire les variables PostgreSQL
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-
-# Construire l'URL de connexion PostgreSQL
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# Choisir l'URL de la base de données en fonction de l'environnement
+DATABASE_URL = os.getenv("DATABASE_URL_PROD") if os.getenv("IS_PROD", "false") == "true" else os.getenv("DATABASE_URL_LOCAL")
 
 # Connexion SQLAlchemy
 engine = create_engine(DATABASE_URL)
 meta = MetaData()
 con = engine.connect()
+
+# Tester la connexion (optionnel)
+print(f"Connected to the database: {DATABASE_URL}")
