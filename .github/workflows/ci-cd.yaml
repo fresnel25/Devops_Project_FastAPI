@@ -9,20 +9,43 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: devop_crud_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
-      - name: 📥 Checkout du code
-        uses: actions/checkout@v3
+    - name: 📥 Checkout du code
+      uses: actions/checkout@v3
 
-      - name: 🔧 Installer Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+    - name: 🔧 Installer Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
 
-      - name: 📦 Installer les dépendances
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: 📦 Installer les dépendances
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: 🧪 Lancer les tests
-        run: |
-          pytest
+    - name: ⚙️ Exporter les variables d’environnement
+      run: |
+        echo "DB_HOST=localhost" >> $GITHUB_ENV
+        echo "DB_PORT=3306" >> $GITHUB_ENV
+        echo "DB_NAME=devop_crud_db" >> $GITHUB_ENV
+        echo "DB_USER=root" >> $GITHUB_ENV
+        echo "DB_PASSWORD=root" >> $GITHUB_ENV
+
+    - name: 🧪 Lancer les tests
+      run: |
+        pytest
