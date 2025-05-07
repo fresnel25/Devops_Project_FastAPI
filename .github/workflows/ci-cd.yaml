@@ -44,7 +44,7 @@ jobs:
         echo "DB_HOST=localhost" >> $GITHUB_ENV
         echo "DB_PORT=5432" >> $GITHUB_ENV
         echo "DB_NAME=devops_api" >> $GITHUB_ENV
-        echo "DB_USER=root" >> $GITHUB_ENV
+        echo "DB_USER=postgres" >> $GITHUB_ENV
         echo "DB_PASSWORD=junior25" >> $GITHUB_ENV
 
     - name: 🧪 Lancer les tests
